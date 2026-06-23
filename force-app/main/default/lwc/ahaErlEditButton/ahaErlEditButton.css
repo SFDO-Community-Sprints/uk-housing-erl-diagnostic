@@ -1,0 +1,13 @@
+.sor-button {
+    padding-right: 0px;
+    padding-left: 0px;
+    width: 100px;
+    height: auto;
+    display:inline-block;
+}
+
+.riv-sor-popover {
+    box-sizing: border-box;
+    max-width: 92vw;
+    overflow-x: hidden;
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Root_Categories</fullName>
+    <columns>NAME</columns>
+    <columns>RECORDTYPE</columns>
+    <columns>Label__c</columns>
+    <columns>Layout_Left__c</columns>
+    <columns>Layout_Top__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>HasParent__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <label>Root Categories</label>
+</ListView>

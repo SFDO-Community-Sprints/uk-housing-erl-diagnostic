@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RepairLocationCloseup</fullName>
+    <active>true</active>
+    <description>A closeup is an image where buttons can be placed.</description>
+    <label>Repair Location Closeup</label>
+    <picklistValues>
+        <picklist>Category__c</picklist>
+        <values>
+            <fullName>COMMUNAL FACILITIES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DOORS AND WINDOWS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EMERGENCIES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GARAGES AND EXTERNAL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HEATING AND ELECTRICS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KITCHENS AND SINKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PLUMBING</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ROOFS CHIMNEYS AND DRAINS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WALLS FLOORS AND STAIRS</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>ItemPicklist__c</picklist>
+        <values>
+            <fullName>BASIN TILES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BASIN%3A LEAKS AND BLOCKAGES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BATH</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BATH TILES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DAMAGED BASIN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FLOOR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LEAKS AND BLOCKAGES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PANELS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TAPS</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>SubCategoryPicklist__c</picklist>
+        <values>
+            <fullName>BASINS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BATHTUBS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HOT WATER</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SHOWERS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WATER</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WC</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sub_Item__c</picklist>
+        <values>
+            <fullName>TAPS</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

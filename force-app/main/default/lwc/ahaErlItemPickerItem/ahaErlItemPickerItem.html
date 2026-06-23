@@ -1,0 +1,185 @@
+<template>
+    <template lwc:if={getMiniEditSearchMode}>
+        <div class="slds-grid slds-gutters slds-wrap slds-grid_vertical-align-center riv-center">
+            <div class="slds-col slds-size_1-of-6">
+                <div class="slds-text-align_left">
+                    <template lwc:if={userEditMode}></template>
+                    <template lwc:else>
+                        <lightning-button-icon 
+                            disabled={buttonsDisabled}
+                            icon-name="utility:add" 
+                            variant="brand" 
+                            label="Add"
+                            onclick={handleSORClickEdit}>
+                            <label>Add</label>
+                        </lightning-button-icon>
+                    </template>
+                </div>
+            </div>
+            <div class="slds-col slds-size_2-of-6">
+                <c-aha-erl-item-picker-item-text
+                    default-profile-options={defaultProfileOptions}
+                    text={sorCodeHighlightedText}
+                ></c-aha-erl-item-picker-item-text>
+            </div>
+            <div class="slds-col slds-size_3-of-6 slds-text-title_caps">
+                <c-aha-erl-item-picker-item-text
+                    default-profile-options={defaultProfileOptions}
+                    text={headingHighlightedText}
+                ></c-aha-erl-item-picker-item-text>
+            </div>
+        </div>
+    </template>
+    <template lwc:else>
+        <div class="slds-grid slds-gutters slds-wrap">
+            <div class="slds-col slds-size_1-of-8">
+                <div class="slds-grid">
+                    <div class="slds-p-around_none slds-m-around_none">
+                        <template lwc:if={searchEditMode}>
+                            <c-aha-erl-edit-button
+                                default-profile-options={defaultProfileOptions}
+                                all-repair-profiles={allRepairProfiles}
+                                sor-search-edit="true"
+                                searchsor={selectedSOR.sorCode}
+                                oncategoryedited={handleEditedCategory}
+                                onspinneron={spinnerOn}
+                                onspinneroff={spinnerOff}>
+                            </c-aha-erl-edit-button>
+                        </template>
+                        <template lwc:else>
+                            <template lwc:if={selectedSOR.selected}>
+                                <lightning-button-icon 
+                                    icon-name="utility:close" 
+                                    variant="brand" 
+                                    label="Close"
+                                    onclick={handleCancelClick}>
+                                    <label>Close</label>
+                                </lightning-button-icon>
+                            </template>
+                            <template lwc:else>
+                                <lightning-button-icon 
+                                    disabled={buttonsDisabled}
+                                    icon-name="utility:add" 
+                                    variant="brand" 
+                                    label="Select"
+                                    onclick={handleSORClick}>
+                                    <label>Select</label>
+                                </lightning-button-icon>
+                            </template>
+                        </template>
+                    </div>
+                    <template lwc:if={editMode}>
+                        <div class="slds-p-around_none slds-m-around_none">
+                            <lightning-button-icon 
+                                disabled={buttonsDisabled}
+                                icon-name="utility:delete" 
+                                variant="destructive" 
+                                label="Delete"
+                                onclick={handleDeleteClick}>
+                                <label>Delete</label>
+                            </lightning-button-icon>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-8">
+                <c-aha-erl-item-picker-item-text
+                        default-profile-options={defaultProfileOptions}
+                        text={sorCodeHighlightedText}
+                    ></c-aha-erl-item-picker-item-text>
+            </div>
+            <template lwc:if={getSearchOrBrowseMode}>
+                <div class="slds-col slds-size_2-of-8 slds-text-title_caps">
+                    <c-aha-erl-item-picker-item-text
+                        default-profile-options={defaultProfileOptions}
+                        text={headingHighlightedText}
+                    ></c-aha-erl-item-picker-item-text>
+                </div>
+                <div class="slds-col slds-size_4-of-8 slds-text-title">
+                    <c-aha-erl-item-picker-item-text
+                        default-profile-options={defaultProfileOptions}
+                        text={fullDescHighlightedText}
+                    ></c-aha-erl-item-picker-item-text>
+                </div>
+            </template>
+            <template lwc:else>
+                <div class="slds-col slds-size_6-of-8">
+                    <div class="slds-text-align_left"><p>{selectedSOR.heading}</p></div>
+                </div>
+            </template>
+        </div>
+        <template lwc:if={selectedSOR.selected}>
+            <div class="slds-grid slds-gutters">
+                <template lwc:if={getSearchOrBrowseMode}></template>
+                <template lwc:else>
+                    <div class="slds-col slds-size_4-of-6">
+                        <div class="slds-grid slds-gutters slds-grid_vertical">
+                            <div class="slds-col">
+                                <div class="slds-text-title_caps slds-hyphenate">
+                                    {selectedSOR.heading}
+                                </div>
+                                <div class="slds-text-title">
+                                    {selectedSOR.fullDescription}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <div class="slds-col slds-size_1-of-6">
+                    <div class="slds-text-title">
+                        RATE: {selectedSOR.rate}
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-6">
+                    <div class="slds-text-title">
+                        PRIORITY: {selectedSOR.priority}
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-size_2-of-6">
+                    <lightning-input
+                        name="Quantity"
+                        class="validate"
+                        type="number" 
+                        label="Quantity" 
+                        value={selectedSOR.quantity}
+                        onchange={handleQuantityChange}
+                        min="1"
+                        max="10"
+                        required>
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_4-of-6">
+                    <lightning-combobox 
+                        class="validate"
+                        name="repairLocation" 
+                        label="Location" 
+                        value={getLocation} 
+                        options={Options}
+                        onchange={handleRepairLocationChange}
+                        required
+                    ></lightning-combobox>
+                </div>
+            </div>
+            <div class="slds-grid slds-grid_reverse slds-gutters slds-var-p-top_small">
+                <div class="slds-col slds-grow-none">
+                    <lightning-button 
+                        variant="success" 
+                        label={getAddButtonText}
+                        title={getAddButtonText}
+                        onclick={handleAddClick}>
+                    </lightning-button>
+                </div>
+                <div class="slds-col slds-grow-none">
+                    <lightning-button 
+                        variant="destructive" 
+                        label="Cancel" 
+                        title="Cancel" 
+                        onclick={handleCancelClick}>
+                    </lightning-button>
+                </div>
+            </div>
+        </template>
+    </template>
+</template>

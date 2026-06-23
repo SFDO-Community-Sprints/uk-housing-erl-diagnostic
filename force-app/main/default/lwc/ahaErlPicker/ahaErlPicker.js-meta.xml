@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>AHA-ERL Picker</masterLabel>
+    <description>Lightning Web Component for picking a SOR</description>
+    <targets>
+        <target>lightning__FlowScreen</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="addressText" type="String" label="Address Text" role="inputOnly" default="" description="if present, displays the address text at the top of the component."/>
+            <property name="repairProfile" type="String" label="Repair Profile" role="inputOnly" default="Default"/>
+            <property name="repairMode" type="String" label="Repair Mode" role="inputOnly" default="FLOW"/>
+            <property name="showCreateReferralButton" type="Boolean" label="Show Create Referral Button" role="inputOnly" default="false" description="If true, a Create Referral button is displayed. Clicking it sets varButtonPressed to REFERRAL, which can be used to control Flow behaviour."/>
+            <property name="createReferralButtonLabel" type="String" label="Create Referral Button Label" role="inputOnly" default="Create Referral" description="Controls the label displayed on the Create Referral button."/>
+            <property name="displayTabs" type="Boolean" label="Display Tabs" role="inputOnly" default="true" description="when true tabs are displayed for the various categories. Disabling this will prevent the search tab from appearing."/>
+            <property name="allowSearch" type="Boolean" label="Allow Search" role="inputOnly" default="true"/> 
+            <property name="outputTextJSON" type="String" label="Selected Repair Output"/>
+            <property name="outputApex" type="apex://AhaErlFlowOutput" label="Selected Repair Output (Apex)" role="outputOnly"/>
+            <property name="varButtonPressed" type="String" label="Button Pressed" role="outputOnly"/>
+        </targetConfig>
+        <targetConfig targets="lightning__AppPage">
+            <property name="repairMode" type="String" label="Repair Mode" default="EDIT"/>
+            <property name="repairProfile" type="String" label="Repair Profile" default="ALL"/>
+            <property name="displayTabs" type="Boolean" label="Display Tabs" default="true" description="when true tabs are displayed for the various categories. Disabling this will prevent the search tab from appearing."/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

@@ -1,0 +1,22 @@
+<template>
+    <div style={getStyle}>
+        <div class="slds-grid">
+            <div class="slds-col slds-grow-none">
+                <lightning-button class="aha-erl-button" variant="brand" label={getButtonLabel} onclick={handleClick} disabled={button.disabled}></lightning-button>
+            </div>
+            <template lwc:if={editMode}>
+                <div class="slds-col slds-grow-none">
+                    <lightning-button-icon icon-name={getMoveIcon} variant={getMoveVariant} onclick={handleMoveMode} disabled={moveDisabled}></lightning-button-icon>
+                </div>
+                <c-aha-erl-edit-button
+                    default-profile-options={defaultProfileOptions}
+                    guided-user={guidedUser}
+                    all-repair-profiles={allRepairProfiles}
+                    button="true"
+                    category={button}
+                    oncategoryedited={handleEditedCategory}>
+                </c-aha-erl-edit-button>
+            </template>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RedirectToLookup__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Redirect To</label>
+    <referenceTo>AHA_ERL_Category__c</referenceTo>
+    <relationshipLabel>Buttons that Redirect to this</relationshipLabel>
+    <relationshipName>RedirectCategories</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,15 @@
+<template>
+    <p>{imageFileText}</p>
+    <div class="container">
+        <img src={image} class="slds-box slds-box_xx-small" onmousedown={getCoords}></img>
+        <template lwc:if={isButton}>
+            <div style={getStyle}>
+                <lightning-button class="aha-erl-button" variant="brand" label={getLabel} ></lightning-button>
+            </div>
+        </template>
+    </div>
+    <template lwc:if={tempChange}>
+        <lightning-button class="aha-erl-button" variant="brand" label="Save" onclick={saveCoords}></lightning-button>
+        <lightning-button class="aha-erl-button" variant="neutral" label="Cancel" onclick={cancelCoords}></lightning-button>
+    </template>
+</template>

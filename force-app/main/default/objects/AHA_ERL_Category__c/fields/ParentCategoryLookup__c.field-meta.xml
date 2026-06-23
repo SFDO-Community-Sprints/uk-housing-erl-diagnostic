@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ParentCategoryLookup__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Parent Category</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>Value does not exist or you have tried to parent a category/button to an ItemList.</errorMessage>
+        <filterItems>
+            <field>AHA_ERL_Category__c.RecordType.Name</field>
+            <operation>notEqual</operation>
+            <value>ItemList</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>AHA_ERL_Category__c</referenceTo>
+    <relationshipLabel>Child Categories</relationshipLabel>
+    <relationshipName>AHA_ERL_Categories</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

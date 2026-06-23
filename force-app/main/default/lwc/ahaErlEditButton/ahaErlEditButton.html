@@ -1,0 +1,197 @@
+<template>
+    <template lwc:if={newMode}>
+        <button class={getNewButtonClass} onclick={handleEdit}>
+            <template lwc:if={button}></template>
+            <template lwc:else>
+                <img src={addCategoryIcon} alt="Add Category" class="slds-border_bottom" />
+            </template>
+            <label>{getAddLabel}</label>
+        </button>   
+        <div style="position:relative;width:100%;">
+            <div class={getClass} role="dialog" data-id='edit' style={getNewStyle}>
+                <div class="slds-popover__body">
+                    <div class="slds-text-title_bold">
+                        <span>{getNewLabelPopoverText}</span>
+                    </div>
+                </div>
+                <lightning-tabset>
+                    <lightning-tab label="Details">
+                        <template lwc:if={sor}>
+                            <lightning-input disabled="true" class="slds-var-p-around_x-small" type="text" label="Chosen SOR Code:" value={chosenSOR.sorCode}></lightning-input>
+                            <template lwc:if={editMode}> <!-- prevent sor list from loading until clicked -->
+                                <c-aha-erl-search
+                                    default-profile-options={defaultProfileOptions}
+                                    edit-mode="true"
+                                    mini-search="true"
+                                    profile="ALL"
+                                    onrivsorselector__sorselectededit={handleSORPicked}>
+                                </c-aha-erl-search>
+                            </template>
+                        </template>
+                        <template lwc:else>
+                            <template lwc:if={message}>
+                                <lightning-combobox
+                                    name="Existing Messages"
+                                    class="slds-var-p-around_x-small"
+                                    label="Select Existing Message"
+                                    options={getAllAvailableMessagesForCombobox}
+                                    onchange={handleExistingMessageChoice}
+                                    value={updatedMessage}>
+                                </lightning-combobox>
+                            </template>
+                            <lightning-input class="slds-var-p-around_x-small" type="checkbox" label="Is Guided" onchange={handleIsGuidedChange} checked={guidedUser} disabled={existingMessageChosen}></lightning-input>
+                            <lightning-input class="slds-var-p-around_x-small" type="text" label={getNewCategoryNameLabel} onblur={handleCategoryNameBlur} value={updatedCategoryLabel} maxlength={categoryNameMaxLength} disabled={existingMessageChosen}></lightning-input>
+                            <lightning-input class="slds-var-p-around_x-small" type="text" label="Edit Mode Label" onchange={handleCategoryEditNameChange} value={updatedCategoryEditModeLabel} disabled={existingMessageChosen}></lightning-input>
+                            <template lwc:if={getImageFileNotNeeded}></template>
+                            <template lwc:else>
+                                <lightning-input class="slds-var-p-around_x-small" type="text" label={getNewCategoryImageLabel} onchange={handleCategoryImageUrlChange}></lightning-input>
+                            </template>
+                            <template lwc:if={message}>
+                                <lightning-input-rich-text class="slds-var-p-around_x-small" onchange={handleMessageChange} value={updatedMessage} disabled={existingMessageChosen}></lightning-input-rich-text>
+                            </template>
+                        </template>
+                    </lightning-tab>
+                    <template lwc:if={sor}></template>
+                    <template lwc:else>
+                        <lightning-tab label="Profiles" onactive={handleProfileTabSelect}>
+                            <lightning-checkbox-group
+                                name="profiles"
+                                label="Select Profiles"
+                                options={allRepairProfiles}
+                                onchange={handleProfileLBChange}
+                                value={defaultProfileOptions}>
+                            </lightning-checkbox-group>
+                        </lightning-tab>
+                    </template>
+                </lightning-tabset>
+                <footer class="slds-popover__footer">
+                    <div class="slds-grid slds-grid_align-center slds-gutters">
+                        <div class="slds-col">
+                            <lightning-button label="Cancel" variant="outline-brand" onclick={handleEditCancel}></lightning-button>
+                        </div>
+                        <div class="slds-col">
+                            <lightning-button label="Save" variant="brand" onclick={handleNewSave}></lightning-button>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </template>
+    <template lwc:else>
+        <div style={getEditStyle}>
+            <template lwc:if={buttonOrSearchSOR}>
+                <lightning-button-icon icon-name={getEditIcon} variant="border-filled" onclick={handleEdit}></lightning-button-icon>
+            </template>
+            <template lwc:else>
+                <button class="sor-button" onclick={handleEdit}>
+                    <label>{getEditLabel}</label>
+                </button>
+            </template>
+            <template lwc:if={editMode}>
+                <template lwc:if={sorSearchEdit}>
+                    <div class="slds-popover riv-sor-popover" style={getSORSearchPopoverStyle}>
+                        <lightning-tabset> 
+                            <lightning-tab label="Profiles" onactive={handleProfileTabSelect}>
+                                <lightning-checkbox-group
+                                    name="profiles"
+                                    label="Select Profiles"
+                                    options={allRepairProfiles}
+                                    onchange={handleProfileLBChange}
+                                    value={selectedProfileOptions}>
+                                </lightning-checkbox-group>
+                                <footer class="slds-popover__footer">
+                                    <div class="slds-grid slds-grid_align-center slds-gutters">
+                                        <div class="slds-col">
+                                            <lightning-button label="Cancel" variant="outline-brand" onclick={handleEditCancel}></lightning-button>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-button label="Save" variant="brand" onclick={handleEditSave}></lightning-button>
+                                        </div>
+                                    </div>
+                                </footer>
+                            </lightning-tab>
+                        </lightning-tabset>
+                    </div>
+                </template>
+                <template lwc:else>
+                    <div class={getClass} role="dialog" data-id='edit' style={getNewStyle}>
+                        <lightning-tabset>
+                            <lightning-tab label="Details">
+                                <template lwc:if={guidance}>
+                                    <div class="slds-popover__body">
+                                        <div class="slds-text-title_bold">
+                                            <span>Repair Advice: {category.label}</span>
+                                        </div>
+                                    </div>
+                                    <lightning-input-rich-text class="slds-var-p-around_x-small" onchange={handleGuidanceChange} value={updatedGuidanceText}></lightning-input-rich-text>
+                                </template>
+                                <template lwc:else>
+                                    <div class="slds-popover__body">
+                                        <div class="slds-text-title_bold">
+                                            <span>Category: {category.label}</span>
+                                        </div>
+                                    </div>
+                                    <lightning-input class="slds-var-p-around_x-small" type="checkbox" label="Is Guided" onchange={handleIsGuidedChange} checked={category.isGuided}></lightning-input>
+                                    <lightning-input class="slds-var-p-around_x-small" type="text" label={getEditCategoryNameLabel} value={category.label} onblur={handleCategoryNameBlur} maxlength={categoryNameMaxLength}></lightning-input>
+                                    <lightning-input class="slds-var-p-around_x-small" type="text" label="Edit Mode Label" onchange={handleCategoryEditNameChange} value={category.editModeLabel} disabled={existingMessageChosen}></lightning-input>
+                                    <template lwc:if={getImageFileNotNeeded}></template>
+                                    <template lwc:else>
+                                        <lightning-input class="slds-var-p-around_x-small" type="text" label={getEditCategoryImageLabel} value={category.imageFileText} onchange={handleCategoryImageUrlChange}></lightning-input>
+                                    </template>
+                                    <template lwc:if={message}>
+                                        <lightning-input-rich-text onchange={handleMessageChange} value={category.message}></lightning-input-rich-text>
+                                    </template>
+                                </template>
+                            </lightning-tab>
+                            <template lwc:if={guidance}></template>
+                            <template lwc:else>
+                                <lightning-tab label="Profiles" onactive={handleProfileTabSelect}>
+                                    <lightning-checkbox-group
+                                        name="profiles"
+                                        label="Select Profiles"
+                                        options={allRepairProfiles}
+                                        onchange={handleProfileLBChange}
+                                        value={defaultProfileOptions}>
+                                    </lightning-checkbox-group>
+                                </lightning-tab>
+                            </template>
+                        </lightning-tabset>
+                        <template lwc:if={isDeleting}>
+                            <footer class="slds-popover__footer">
+                                <div class="slds-text-title_bold">
+                                    <span>Are you sure you want to delete this?</span>
+                                </div>
+                                <div class="slds-grid slds-grid_align-center">
+                                    <div class="slds-col">
+                                        <lightning-button label="Delete" variant="destructive" onclick={handleDeleteConfirmed}></lightning-button>
+                                    </div>
+                                    <div class="slds-col">
+                                        <lightning-button label="Cancel" variant="outline-brand" onclick={handleDeleteCancel}></lightning-button>
+                                    </div>
+                                </div>
+                            </footer>
+                        </template>
+                        <template lwc:else>
+                            <footer class="slds-popover__footer">
+                                <div class="slds-grid slds-grid_align-center slds-gutters">
+                                    <template lwc:if={guidance}></template>
+                                    <template lwc:else>
+                                        <div class="slds-col">
+                                            <lightning-button label="Delete" variant="destructive" onclick={handleEditDelete}></lightning-button>
+                                        </div>
+                                    </template>
+                                    <div class="slds-col">
+                                        <lightning-button label="Cancel" variant="outline-brand" onclick={handleEditCancel}></lightning-button>
+                                    </div>
+                                    <div class="slds-col">
+                                        <lightning-button label="Save" variant="brand" onclick={handleEditSave}></lightning-button>
+                                    </div>
+                                </div>
+                            </footer>
+                        </template>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,179 @@
+<template>
+    <template lwc:if={getIsCategoryPicked}>
+        <template lwc:if={displayTabs}>
+            <lightning-tabset active-tab-value={selectedCategory}>
+                <template for:each={categories} for:item="category">
+                    <lightning-tab data-id={category.id} data-label={category.label} key={category.id} label={category.label} value={category.id} onactive={handleCategoryTabClick}>
+                        <template lwc:if={category.isActive}>
+                            <c-aha-erl-category
+                                default-profile-options={defaultProfileOptions}
+                                guided-user={guidedUser}
+                                edit-mode={editMode}
+                                repair-profile={repairProfile}
+                                all-repair-profiles={allRepairProfiles}
+                                category={category.id}
+                                repair-locations={repairLocations}
+                                my-aha-erl-mode={myAhaErlMode}
+                                oncategoryedited={handleEditedCategory}
+                                onspinneroff={spinnerOff}
+                                onspinneron={spinnerOn}
+                                onback={handleBack}>
+                            </c-aha-erl-category>
+                        </template>
+                    </lightning-tab>
+                </template>
+            </lightning-tabset>
+        </template>
+        <template lwc:else>
+            <c-aha-erl-category
+                default-profile-options={defaultProfileOptions}
+                guided-user={guidedUser}
+                edit-mode={editMode}
+                repair-profile={repairProfile}
+                all-repair-profiles={allRepairProfiles}
+                category={selectedCategory}
+                repair-locations={repairLocations}
+                my-aha-erl-mode={myAhaErlMode}
+                oncategoryedited={handleEditedCategory}
+                onspinneroff={spinnerOff}
+                onspinneron={spinnerOn}
+                onback={handleBack}>
+            </c-aha-erl-category>
+        </template>
+    </template>
+    <template lwc:else>
+        <template lwc:if={isCloseup}>
+            <lightning-button 
+                icon-name="utility:back"
+                title="Back"
+                label="Back"
+                variant="neutral" 
+                onclick={handleBackClick} 
+                class="slds-var-p-vertical_xx-small">
+            </lightning-button>
+            <template lwc:if={hasGuidance}>
+                <lightning-button
+                    label={getGuidanceButtonText}
+                    onclick={handleGuidanceClick}
+                    variant="brand"
+                    class="slds-var-p-vertical_xx-small slds-var-m-left_medium"
+                ></lightning-button>
+            </template>
+            <template lwc:if={closeupGuidance}>
+                <div class="parent-advice">
+                    <c-lwc-generic-popout-text-box
+                        default-profile-options={defaultProfileOptions}
+                        body-text={cleanedGuidanceText}
+                        onclose={handleGuidanceClose}
+                    ></c-lwc-generic-popout-text-box>
+                </div>
+            </template>
+            <template for:each={categories} for:item="closeup">
+                <div key={closeup.id}>
+                    <template lwc:if={editMode}>
+                        <div class="slds-var-p-vertical_xx-small">
+                            <c-aha-erl-edit-button
+                                default-profile-options={defaultProfileOptions}
+                                all-repair-profiles={allRepairProfiles}
+                                category={closeup}
+                                repair-profile={repairProfile}
+                                guidance="true"
+                                edit-text-override="Edit Advice"
+                                oncategoryedited={handleEditedCategory}
+                                onspinneron={spinnerOn}
+                                onspinneroff={spinnerOff}>
+                            </c-aha-erl-edit-button>
+                        </div>
+                    </template>
+                    <c-aha-erl-closeup
+                        default-profile-options={defaultProfileOptions}
+                        edit-mode={editMode}
+                        guided-user={guidedUser}
+                        repair-profile={repairProfile}
+                        all-repair-profiles={allRepairProfiles}
+                        category={closeup}
+                        image={closeup.ImageUrl}
+                        buttons={closeup.buttons}
+                        repair-locations={repairLocations}
+                        my-aha-erl-mode={myAhaErlMode}
+                        oncategoryedited={handleEditedCategory}
+                        onspinneroff={spinnerOff}
+                        onspinneron={spinnerOn}
+                        onrivsorselector__redirectcategory={handleRedirectCategory}>
+                    </c-aha-erl-closeup>
+                </div>
+            </template>
+        </template>
+        <template lwc:else>
+            <lightning-button 
+                icon-name="utility:back"
+                title="Back"
+                label="Back"
+                variant="neutral" 
+                onclick={handleBackClick} 
+                class="">
+            </lightning-button>
+            <div class="slds-grid slds-wrap button-container slds-var-m-top_small">
+                <template for:each={displayedCategories} for:item="category">
+                    <div key={category.id} class="slds-col slds-grow-none slds-var-m-horizontal_xxx-small">
+                        <button data-id={category.id}
+                                data-label={category.label}
+                                class="aha-erl-category-button" 
+                                aria-label={category.label} 
+                                onclick={handleCategoryButtonClick}>
+                            <img src={category.ImageUrl} alt={category.label} class="slds-border_bottom" />
+                            <template lwc:if={editMode}>
+                                <label class="aha-erl-category-button-label">{category.editModeLabel}</label>
+                            </template>
+                            <template lwc:else>
+                                <label class="aha-erl-category-button-label">{category.label}</label>
+                            </template>
+                        </button>
+                        <template lwc:if={editMode}>
+                            <c-aha-erl-edit-button
+                                default-profile-options={defaultProfileOptions}
+                                guided-user={guidedUser}
+                                all-repair-profiles={allRepairProfiles}
+                                category={category}
+                                oncategoryedited={handleEditedCategory}
+                                onspinneron={spinnerOn}
+                                onspinneroff={spinnerOff}>
+                            </c-aha-erl-edit-button>
+                        </template>
+                    </div>
+                </template>
+                <template lwc:if={editMode}>
+                    <div class="slds-col slds-grow-none">
+                        <div class="slds-grid slds-grid_vertical slds-align_absolute-center">
+                            <c-aha-erl-edit-button
+                                default-profile-options={defaultProfileOptions}
+                                guided-user={guidedUser} 
+                                all-repair-profiles={allRepairProfiles}
+                                new-mode="true"
+                                parent-category={category}
+                                oncategoryedited={handleEditedCategory}
+                                onspinneron={spinnerOn}
+                                onspinneroff={spinnerOff}>
+                            </c-aha-erl-edit-button>
+                        </div>
+                    </div>
+                </template>
+                <template lwc:if={getIsEmptyEditMode}>
+                    <div class="slds-col slds-grow-none">
+                        <c-aha-erl-edit-button
+                            default-profile-options={defaultProfileOptions}
+                            guided-user={guidedUser}
+                            all-repair-profiles={allRepairProfiles} 
+                            new-mode="true"
+                            closeup="true"
+                            parent-category={category}
+                            oncategoryedited={handleEditedCategory}
+                            onspinneron={spinnerOn}
+                            onspinneroff={spinnerOff}>
+                        </c-aha-erl-edit-button>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </template>
+</template>

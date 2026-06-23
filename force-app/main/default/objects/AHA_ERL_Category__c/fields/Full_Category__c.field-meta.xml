@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Full_Category__c</fullName>
+    <externalId>false</externalId>
+    <formula>TEXT(Category__c) &amp; &quot; - &quot; &amp; TEXT(SubCategoryPicklist__c) &amp; &quot; - &quot; &amp; TEXT(ItemPicklist__c) &amp; &quot; - &quot; &amp; TEXT(Sub_Item__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Full Category</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,47 @@
+<template>
+    <template lwc:if={isEditSOR}>
+        <section role="dialog" aria-modal="true" aria-label="SOR Selection" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content slds-var-p-around_medium" id="edit-modal-content">
+                    <c-aha-erl-item-picker-item
+                        default-profile-options={defaultProfileOptions}
+                        sor={selectedSOR}
+                        repair-locations={repairLocations}
+                        override-location={selectedSOR.location}
+                        onrivsorselector__sorselected={handleSorEdit}
+                        onenablebuttons={handleSorEditClose}
+                        user-edit-mode={isEditSOR}
+                        override-add-button-text="Update"
+                        oncloseuseredit={handleCloseEdit}>
+                    </c-aha-erl-item-picker-item>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+    <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-8">
+            <lightning-button-icon class="riv-deletebuttonicon" icon-name="utility:delete" alternative-text="Delete" onclick={handleDeleteSorButton} data-id={sor.id}><Label>Delete</Label></lightning-button-icon>
+            <lightning-button-icon class="slds-var-p-left_none slds-var-m-left_none" icon-name="utility:edit" alternative-text="Edit" onclick={handleEditSorButton} data-id={sor.id}><Label>Edit</Label></lightning-button-icon>
+        </div>
+        <div class="slds-col slds-size_1-of-8">
+            <p>{sor.sorCode}</p>
+        </div>
+        <div class="slds-col slds-size_2-of-8 slds-hyphenate">
+            <p>{sor.heading}</p>
+        </div>
+        <div class="slds-col slds-size_1-of-8">
+            <div class="slds-text-align_center">
+                <p>{sor.quantity}</p>
+            </div>
+        </div>
+        <div class="slds-col slds-size_1-of-8">
+            <div class="slds-text-align_center">
+                <p>{sor.priority}</p>
+            </div>
+        </div>
+        <div class="slds-col slds-size_2-of-8">
+            <p>{sor.locationLabel}</p>
+        </div>
+    </div>
+</template>

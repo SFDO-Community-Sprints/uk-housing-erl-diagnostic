@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ImageFileText__c</fullName>
+    <defaultValue>&apos;PLACEHOLDER.jpg&apos;</defaultValue>
+    <description>The location of the image file in the SOR Picker Static Resource zip file.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The location of the image file in the SOR Picker Static Resource zip file. If you don&apos;t know what that static resource is, you shouldn&apos;t be editing this!</inlineHelpText>
+    <label>Image File</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

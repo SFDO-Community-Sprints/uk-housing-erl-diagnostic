@@ -1,0 +1,10 @@
+.container {
+    position: relative;
+    max-width: 1024px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}

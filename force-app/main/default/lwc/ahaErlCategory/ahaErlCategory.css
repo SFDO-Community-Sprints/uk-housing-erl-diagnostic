@@ -1,0 +1,18 @@
+.aha-erl-category-button {
+    padding-right: 0px;
+    padding-left: 0px;
+    width: 100px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+}
+
+
+.aha-erl-category-button-label {
+    font-weight: bold;
+    padding: 0px 2px;
+    min-height: var(--max-button-height);
+    align-content: center;
+}

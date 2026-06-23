@@ -1,0 +1,81 @@
+.container {
+    position: relative;
+    max-width: 700px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.slds-box_xx-small {
+    position: relative;
+}
+
+.riv-spinner-container {
+    max-width: 100%;
+    width: 100%;
+    height: 250px;
+}
+
+.transition-opacity {
+    transition: opacity 0.5s ease;
+    opacity: 1;
+}
+
+.greyed-out {
+    transition: opacity 0.5s ease;
+    opacity: 0.5;
+}
+
+.cat {
+    position: absolute;
+    width: 10%;
+    left: 71%;
+    top: 73%;
+}
+
+.eye {
+    position: absolute;
+    width: 13%;
+    height: 17%;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.eye-left {
+    left: 21%;
+    top: 25%;
+}
+
+.eye-right {
+    left: 35%;
+    top: 25%;
+}
+
+.pupil {
+    position: absolute;
+    width: 35%;
+    height: 50%;
+    left: 33%;
+    top: 27%;
+    border-radius: 50%;
+    background-color: black;
+}
+
+
+@keyframes poof {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+.poof {
+    animation: poof 0.5s forwards;
+}

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CategoryPicklist__c</fullName>
+    <label>Category</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>PLUMBING</fullName>
+                <default>false</default>
+                <label>PLUMBING</label>
+            </value>
+            <value>
+                <fullName>DOORS AND WINDOWS</fullName>
+                <default>false</default>
+                <label>DOORS AND WINDOWS</label>
+            </value>
+            <value>
+                <fullName>KITCHENS AND SINKS</fullName>
+                <default>false</default>
+                <label>KITCHENS AND SINKS</label>
+            </value>
+            <value>
+                <fullName>HEATING AND ELECTRICS</fullName>
+                <default>false</default>
+                <label>HEATING AND ELECTRICS</label>
+            </value>
+            <value>
+                <fullName>GARAGES AND EXTERNAL</fullName>
+                <default>false</default>
+                <label>GARAGES AND EXTERNAL</label>
+            </value>
+            <value>
+                <fullName>ROOFS CHIMNEYS AND DRAINS</fullName>
+                <default>false</default>
+                <label>ROOFS CHIMNEYS AND DRAINS</label>
+            </value>
+            <value>
+                <fullName>COMMUNAL FACILITIES</fullName>
+                <default>false</default>
+                <label>COMMUNAL FACILITIES</label>
+            </value>
+            <value>
+                <fullName>WALLS FLOORS AND STAIRS</fullName>
+                <default>false</default>
+                <label>WALLS FLOORS AND STAIRS</label>
+            </value>
+            <value>
+                <fullName>EMERGENCIES</fullName>
+                <default>false</default>
+                <label>EMERGENCIES</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

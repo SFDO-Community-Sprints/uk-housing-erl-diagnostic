@@ -1,0 +1,320 @@
+<template>
+    <div class="draggable">
+        <div class="slds-var-p-around_medium" id="modal-content-id-1">
+            <template lwc:if={isSpinnerOn}>
+                <div class="spinnerDiv">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:else>
+                <lightning-button-icon class="slds-button slds-button_icon slds-modal__close slds-float_right" icon-name="utility:close" onclick={handleClose} alternative-text="close" title="Close" label="Close"><label>Close</label></lightning-button-icon>
+                <div class="slds-grid slds-grid_vertical">
+                    <template lwc:if={isProblemSelected}>
+                        <div class="slds-border_bottom slds-var-p-vertical_x-small">
+                            <div class="slds-grid">
+                                <div>
+                                    <lightning-button 
+                                        icon-name="utility:back"
+                                        title="Back"
+                                        label="Back"
+                                        variant="neutral" 
+                                        onclick={handleSubCategoryBack} 
+                                        class="slds-col slds-grow-none slds-var-m-right_small">
+                                    </lightning-button>
+                                </div>
+                                <template lwc:if={editMode}>
+                                    <div class="slds-col slds-text-heading_medium">{selectedProblem.editModeLabel}</div>
+                                </template>
+                                <template lwc:else>
+                                    <div class="slds-col slds-text-heading_medium">{selectedProblem.label}</div>
+                                </template>
+                            </div>
+                        </div>
+                        <template lwc:if={guidedModeAndEditMode}>
+                            <div>If SORs are specified, all the SORs here will be selected when the user chooses this problem. If a message is specified, ONLY the message will be displayed.</div>
+                        </template>
+                        <template lwc:if={isGuidedModeNotEditing}>
+                            <lightning-textarea 
+                                name="Guided Mode Details" 
+                                required 
+                                value={guidedModeDetails} 
+                                label="Please provide more details about the repair" 
+                                maxlength="255"
+                                onchange={handleGuidedModeDetailsChange}
+                                placeholder="type here...">
+                            </lightning-textarea>
+                            <lightning-combobox
+                                name="Location"
+                                label="If possible, please select the Location of the repair"
+                                options={repairOptions}
+                                value={overrideLocation}
+                                onchange={handleLocationChange}>
+                            </lightning-combobox>
+                        </template>
+                        <template lwc:else>
+                            <template for:each={selectedProblem.messages} for:item="message">
+                                <div key={message.id} class="slds-var-p-top_xx-small">
+                                    <div class="slds-grid">
+                                        <template lwc:if={editMode}>
+                                            <div class="slds-col slds-grow-none">
+                                                <c-aha-erl-edit-button
+                                                    default-profile-options={defaultProfileOptions}
+                                                    guided-user={guidedUser}
+                                                    all-repair-profiles={allRepairProfiles}
+                                                    message="true"
+                                                    category={message}
+                                                    parent-category={selectedProblem.id}
+                                                    oncategoryedited={handleEditedCategory}
+                                                    onspinneron={handleSpinnerOn}
+                                                    onspinneroff={handleSpinnerOff}>
+                                                </c-aha-erl-edit-button>
+                                            </div>
+                                        </template>
+                                        <div class="slds-col slds-grow">
+                                            <c-aha-erl-item-picker-message
+                                                default-profile-options={defaultProfileOptions}
+                                                message={message.message}>
+                                            </c-aha-erl-item-picker-message>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                            <template lwc:if={notGuidedMode}>
+                                <template for:each={selectedProblem.sorList} for:item="sor">
+                                    <div key={sor.id} class="slds-var-p-top_x-small">
+                                        <c-aha-erl-item-picker-item
+                                            default-profile-options={defaultProfileOptions}
+                                            all-repair-profiles={allRepairProfiles}
+                                            edit-mode={editMode}
+                                            sor={sor}
+                                            item-list-id={selectedProblem.id}
+                                            repair-locations={repairLocations}
+                                            buttons-disabled={buttonsDisabled}
+                                            auto-open={autoOpenProblemSOR}
+                                            oncategoryedited={handleEditedCategory}
+                                            onlocationchange={handleLocationChange}
+                                            ondisablebuttons={disableButtons}
+                                            onenablebuttons={enableButtons}
+                                            oncloseuseredit={handleSubCategoryBack}>
+                                        </c-aha-erl-item-picker-item>
+                                    </div>
+                                </template>
+                            </template>
+                            <template lwc:if={editMode}>
+                                <div class="slds-grid">
+                                    <div class="container" style="position:relative">
+                                        <c-aha-erl-edit-button
+                                            default-profile-options={defaultProfileOptions}
+                                            guided-user={guidedUser}
+                                            all-repair-profiles={allRepairProfiles}
+                                            new-mode="true"
+                                            sor="true"
+                                            category={selectedProblem}
+                                            oncategoryedited={handleEditedCategory}
+                                            onspinneron={handleSpinnerOn}
+                                            onspinneroff={handleSpinnerOff}>
+                                        </c-aha-erl-edit-button>
+                                    </div>
+                                    <div class="container" style="position:relative">
+                                        <c-aha-erl-edit-button
+                                            default-profile-options={defaultProfileOptions}
+                                            guided-user={guidedUser}
+                                            all-repair-profiles={allRepairProfiles}
+                                            new-mode="true"
+                                            message="true"
+                                            category={selectedProblem}
+                                            oncategoryedited={handleEditedCategory}
+                                            onspinneron={handleSpinnerOn}
+                                            onspinneroff={handleSpinnerOff}>
+                                        </c-aha-erl-edit-button>
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                    </template>
+                    <template lwc:else>
+                        <template for:each={itemLists} for:item="itemList">
+                            <div key={itemList.id} class="slds-col slds-grow-none">
+                                <div class="slds-grid slds-gutters">
+                                    <div class="slds-col slds-grow-none slds-var-p-vertical_x-small">
+                                        <template lwc:if={editMode}>
+                                            <div class="slds-text-heading_medium slds-border_bottom slds-var-p-bottom_x-small">{itemList.editModeLabel}</div>
+                                        </template>
+                                        <template lwc:else>
+                                            <div class="slds-text-heading_medium slds-border_bottom slds-var-p-bottom_x-small">{itemList.label}</div>
+                                        </template>
+                                    </div>
+                                    <div class="slds-col slds-grow-none">
+                                        <template if:true={editMode}>
+                                            <div class="container" style="position:relative">
+                                                <c-aha-erl-edit-button
+                                                    default-profile-options={defaultProfileOptions}
+                                                    guided-user={guidedUser}
+                                                    all-repair-profiles={allRepairProfiles}
+                                                    itemlist="true"
+                                                    category={itemList}
+                                                    oncategoryedited={handleEditedCategory}
+                                                    onspinneron={handleSpinnerOn}
+                                                    onspinneroff={handleSpinnerOff}>
+                                                </c-aha-erl-edit-button>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                                <template for:each={itemList.messages} for:item="message">
+                                    <div key={message.id} class="slds-var-p-top_xx-small">
+                                        <div class="slds-grid">
+                                            <template lwc:if={editMode}>
+                                                <div class="slds-col slds-grow-none">
+                                                    <c-aha-erl-edit-button
+                                                        default-profile-options={defaultProfileOptions}
+                                                        guided-user={guidedUser}
+                                                        all-repair-profiles={allRepairProfiles}
+                                                        message="true"
+                                                        category={message}
+                                                        parent-category={itemList.id}
+                                                        oncategoryedited={handleEditedCategory}
+                                                        onspinneron={handleSpinnerOn}
+                                                        onspinneroff={handleSpinnerOff}>
+                                                    </c-aha-erl-edit-button>
+                                                </div>
+                                            </template>
+                                            <div class="slds-col slds-grow">
+                                                <c-aha-erl-item-picker-message
+                                                    default-profile-options={defaultProfileOptions}
+                                                    message={message.message}>
+                                                </c-aha-erl-item-picker-message>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template for:each={itemList.subCategories} for:item="problem">
+                                    <div key={problem.id} class="slds-var-p-top_xx-small">
+                                        <div class="slds-grid">
+                                            <template lwc:if={editMode}>
+                                                <div class="slds-col slds-grow-none">
+                                                    <c-aha-erl-edit-button
+                                                        default-profile-options={defaultProfileOptions}
+                                                        guided-user={guidedUser}
+                                                        all-repair-profiles={allRepairProfiles}
+                                                        itemlist="true"
+                                                        category={problem}
+                                                        parent-category={itemList.id}
+                                                        oncategoryedited={handleEditedCategory}
+                                                        onspinneron={handleSpinnerOn}
+                                                        onspinneroff={handleSpinnerOff}>
+                                                    </c-aha-erl-edit-button>
+                                                </div>
+                                            </template>
+                                            <div class="slds-col slds-grow">
+                                                <button class="slds-button_brand slds-button" style="width:100%;text-align:left;display:block;" disabled={buttonsDisabled} data-id={problem.id} data-itemlistid={itemList.id} onclick={handleClickSubCategory}>
+                                                    <template lwc:if={editMode}>
+                                                        <label>{problem.editModeLabel}</label>
+                                                    </template>
+                                                    <template lwc:else>
+                                                        <label>{problem.label}</label>
+                                                    </template>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template for:each={itemList.sorList} for:item="sor">
+                                    <div key={sor.id} class="slds-var-p-top_x-small">
+                                        <c-aha-erl-item-picker-item
+                                            default-profile-options={defaultProfileOptions}
+                                            all-repair-profiles={allRepairProfiles}
+                                            edit-mode={editMode}
+                                            sor={sor}
+                                            item-list-id={itemList.id}
+                                            repair-locations={repairLocations}
+                                            buttons-disabled={buttonsDisabled}
+                                            oncategoryedited={handleEditedCategory}
+                                            onlocationchange={handleLocationChange}
+                                            ondisablebuttons={disableButtons}
+                                            onenablebuttons={enableButtons}>
+                                        </c-aha-erl-item-picker-item>
+                                    </div>
+                                </template>
+                                <template lwc:if={editMode}>
+                                    <div class="slds-grid">
+                                        <template lwc:if={absoluteNotGuidedMode}>
+                                            <div class="container" style="position:relative">
+                                                <c-aha-erl-edit-button
+                                                    default-profile-options={defaultProfileOptions}
+                                                    guided-user={guidedUser}
+                                                    all-repair-profiles={allRepairProfiles}
+                                                    new-mode="true"
+                                                    sor="true"
+                                                    category={itemList}
+                                                    oncategoryedited={handleEditedCategory}
+                                                    onspinneron={handleSpinnerOn}
+                                                    onspinneroff={handleSpinnerOff}>
+                                                </c-aha-erl-edit-button>
+                                            </div>
+                                        </template>
+                                        <div class="container" style="position:relative">
+                                            <c-aha-erl-edit-button
+                                                default-profile-options={defaultProfileOptions}
+                                                guided-user={guidedUser}
+                                                all-repair-profiles={allRepairProfiles}
+                                                new-mode="true"
+                                                message="true"
+                                                category={itemList}
+                                                oncategoryedited={handleEditedCategory}
+                                                onspinneron={handleSpinnerOn}
+                                                onspinneroff={handleSpinnerOff}>
+                                            </c-aha-erl-edit-button>
+                                        </div>
+                                        <div class="container" style="position:relative">
+                                            <c-aha-erl-edit-button
+                                                default-profile-options={defaultProfileOptions}
+                                                guided-user={guidedUser}
+                                                all-repair-profiles={allRepairProfiles}
+                                                new-mode="true"
+                                                problem="true"
+                                                parent-category={itemList.id}
+                                                oncategoryedited={handleEditedCategory}
+                                                onspinneron={handleSpinnerOn}
+                                                onspinneroff={handleSpinnerOff}>
+                                            </c-aha-erl-edit-button>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                        <template lwc:if={editMode}>
+                            <div class=" slds-var-p-top_xx-small">
+                                <c-aha-erl-edit-button
+                                    default-profile-options={defaultProfileOptions}
+                                    guided-user={guidedUser}
+                                    all-repair-profiles={allRepairProfiles}
+                                    new-mode="true"
+                                    itemlist="true"
+                                    parent-category={selectedItem}
+                                    oncategoryedited={handleEditedCategory}
+                                    onspinneron={handleSpinnerOn}
+                                    onspinneroff={handleSpinnerOff}>
+                                </c-aha-erl-edit-button>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </template>
+        </div>
+        <template lwc:if={isProblemSelected}>
+            <template lwc:if={isGuidedModeNotEditing}>
+                <footer class="slds-modal__footer">
+                    <lightning-layout horizontal-align="center">
+                        <lightning-layout-item padding="around-small">
+                            <lightning-button variant="neutral" label="Cancel" title="Cancel" onclick={handleClose}></lightning-button>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small">
+                            <lightning-button variant="brand" label="Submit" title="Save" onclick={handleGuidedSubmit}></lightning-button>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </footer>
+            </template>
+        </template>
+    </div>
+</template>

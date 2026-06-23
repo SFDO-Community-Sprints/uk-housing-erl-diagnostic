@@ -1,0 +1,42 @@
+<template>
+    <template lwc:if={cloningProfile}>
+        <lightning-input type="text" label="New Profile Name" value={newProfileName} onchange={handleNewProfileNameChange} disabled={disableCloneActions}></lightning-input>
+        <lightning-input type="text" label="New Profile Description" value={newProfileDesc} onchange={handleNewProfileDescChange} disabled={disableCloneActions}></lightning-input>
+        <template lwc:if={isCloningInProgress}>
+            <div class="slds-var-m-top_small slds-is-relative" style="min-height: 3rem;">
+                <lightning-spinner alternative-text="Cloning profile" size="small"></lightning-spinner>
+            </div>
+        </template>
+        <div class="slds-var-m-top_small">
+            <lightning-button label="Save" onclick={handleSaveCloneProfile} disabled={disableCloneActions}></lightning-button>
+            <lightning-button label="Cancel" onclick={handleCancelCloneProfile} disabled={disableCloneActions}></lightning-button>
+        </div>
+    </template>
+    <template lwc:elseif={confirmProfileDelete}>
+        <p>Are you sure you want to delete this profile? <strong>{selectedProfileToCloneOrDelete}</strong></p>
+        <template lwc:if={isDeletingInProgress}>
+            <div class="slds-var-m-top_small slds-is-relative" style="min-height: 3rem;">
+                <lightning-spinner alternative-text="Deleting profile" size="small"></lightning-spinner>
+            </div>
+        </template>
+        <div class="slds-var-m-top_small">
+            <lightning-button label="Yes" onclick={handleDeleteProfile} disabled={disableDeleteActions}></lightning-button>
+            <lightning-button label="No" onclick={handleCancelDeleteProfile} disabled={disableDeleteActions}></lightning-button>
+        </div>
+    </template>
+    <template lwc:elseif={viewAllSors}>
+        <c-aha-erl-profile-assignment
+            profile-name={selectedProfileToCloneOrDelete}
+            onback={handleBackToProfiles}>
+        </c-aha-erl-profile-assignment>
+    </template>
+    <template lwc:else>
+        <lightning-datatable
+            hide-checkbox-column
+            key-field="label"
+            data={allRepairProfiles}
+            columns={repairProfileColumns}
+            onrowaction={handleProfileRowAction}>
+        </lightning-datatable>
+    </template>
+</template>

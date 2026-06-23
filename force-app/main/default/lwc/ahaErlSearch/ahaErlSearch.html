@@ -1,0 +1,86 @@
+<template>
+    <div>
+        <lightning-input 
+            type="search" 
+            label="Search" 
+            placeholder="Search by SOR, Description or Job Title"
+            onchange={handleFilterChange}>
+        </lightning-input>
+    </div>
+    <template lwc:if={searchEditMode}>
+        <div class="slds-grid slds-grid_vertical slds-gutters">
+            <template for:each={getDisplayedSors} for:item="sor">
+                <div key={sor.id} class="slds-col slds-var-m-top_x-small">
+                    <c-aha-erl-item-picker-item
+                        default-profile-options={defaultProfileOptions}
+                        all-repair-profiles={allRepairProfiles}
+                        sor={sor}
+                        mode="searchEdit"
+                        filter={sendFilter}
+                        buttons-disabled={buttonsDisabled}
+                        ondisablebuttons={disableButtons}
+                        onenablebuttons={enableButtons}>
+                    </c-aha-erl-item-picker-item>
+                </div>
+            </template>
+        </div>
+    </template>
+    <template lwc:elseif={editMode}>
+        <div class="slds-grid slds-grid_vertical slds-gutters">
+            <template for:each={getDisplayedSors} for:item="sor">
+                <div key={sor.id} class="slds-col slds-var-m-top_x-small">
+                    <c-aha-erl-item-picker-item
+                        default-profile-options={defaultProfileOptions}
+                        sor={sor}
+                        mode="miniEditSearch"
+                        filter={sendFilter}
+                        buttons-disabled={buttonsDisabled}
+                        ondisablebuttons={disableButtons}
+                        onenablebuttons={enableButtons}>
+                    </c-aha-erl-item-picker-item>
+                </div>
+            </template>
+        </div>
+    </template>
+    <template lwc:else>
+        <div class="slds-grid slds-grid_vertical slds-gutters">
+            <template for:each={getDisplayedSors} for:item="sor">
+                <div key={sor.id} class="slds-col slds-var-m-top_x-small">
+                    <c-aha-erl-item-picker-item
+                        default-profile-options={defaultProfileOptions}
+                        sor={sor}
+                        mode="search"
+                        filter={sendFilter}
+                        repair-locations={repairLocations}
+                        override-location={overrideLocation}
+                        onlocationchange={handleLocationChange}>
+                    </c-aha-erl-item-picker-item>
+                </div>
+            </template>
+        </div>
+    </template>
+    <div>
+        <div class="slds-grid slds-gutters slds-grid_align-center">
+            <div class="slds-col">
+                <lightning-button label={getFirstPageLabel} onclick={handleFirstPage} variant="brand" disabled={isFirstPage}></lightning-button>
+            </div>
+            <div class="slds-col">
+                <lightning-button label={getPrevPageLabel} onclick={handlePrevPage} variant="brand" disabled={isFirstPage}></lightning-button>
+            </div>
+            <div class="slds-col">
+                <p>{currentPage} / {totalPages}</p>
+            </div>
+            <div class="slds-col">
+                <lightning-button label={getNextPageLabel} onclick={handleNextPage} variant="brand" disabled={isLastPage}></lightning-button>
+            </div>
+            <div class="slds-col">
+                <lightning-button label={getLastPageLabel} onclick={handleLastPage} variant="brand" disabled={isLastPage}></lightning-button>
+            </div>
+        </div>
+    </div>
+    <div class="spinnerDiv">
+        <template lwc:if={spinnerOn}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+    </div>
+</template>

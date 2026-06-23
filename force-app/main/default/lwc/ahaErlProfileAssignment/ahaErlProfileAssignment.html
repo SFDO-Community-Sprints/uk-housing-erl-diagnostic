@@ -1,0 +1,66 @@
+<template>
+    <div class="slds-grid slds-grid_align-spread slds-m-bottom_small">
+        <lightning-button label="Back to All Profiles" onclick={handleBack}></lightning-button>
+        <div>
+            <lightning-button
+                class="slds-m-right_small"
+                label="Download CSV"
+                icon-name="utility:download"
+                onclick={handleDownloadCsv}
+                disabled={isLoadingOrNoResults}>
+            </lightning-button>
+            <lightning-button
+                label="Copy to Clipboard"
+                icon-name="utility:copy_to_clipboard"
+                onclick={handleCopyToClipboard}
+                disabled={isLoadingOrNoResults}>
+            </lightning-button>
+        </div>
+    </div>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+    <template if:false={isLoading}>
+        <template if:true={sors}>
+            <h1 class="slds-text-heading_large slds-m-bottom_medium">Profile: {profileName}</h1>
+            <div class="slds-grid slds-wrap slds-m-bottom_medium">
+                <div class="slds-col slds-size_1-of-4">
+                    <p>Full Dataset: {fullDatasetCount}</p>
+                </div>
+                <div class="slds-col slds-size_1-of-4">
+                    <p>Filtered Dataset: {filteredDatasetCount}</p>
+                </div>
+                <div class="slds-col slds-size_1-of-4">
+                    <p>Assigned SORs: {assignedSORCount}</p>
+                </div>
+                <div class="slds-col slds-size_1-of-4">
+                    <p>Unassigned SORs: {unassignedSORCount}</p>
+                </div>
+            </div>
+            <lightning-input type="search" label="Search" value={searchKey} onchange={handleSearchKeyChange}></lightning-input>
+            <lightning-input type="checkbox" label="Show Assigned Only" checked={showAssignedOnly} onchange={handleShowAssignedOnlyChange} disabled={showUnassignedOnly}></lightning-input>
+            <lightning-input type="checkbox" label="Show Unassigned Only" checked={showUnassignedOnly} onchange={handleShowUnassignedOnlyChange} disabled={showAssignedOnly}></lightning-input>
+            <div class="slds-grid slds-wrap">
+                <template for:each={paginatedSORs} for:item="sor">
+                    <div key={sor.id} class="slds-col slds-size_1-of-1 slds-p-around_small">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_1-of-12">
+                                <lightning-input type="checkbox" label={sor.sorCode} checked={sor.selected} data-id={sor.id} onchange={handleSORCheckboxChange}></lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_3-of-12">
+                                <strong>{sor.heading}</strong>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <p>{sor.fullDescription}</p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <div class="slds-m-top_medium">
+                <lightning-button label="Previous" onclick={handlePreviousPage} disabled={getDisabledPrevious}></lightning-button>
+                <lightning-button label="Next" onclick={handleNextPage} disabled={getDisabledNext}></lightning-button>
+            </div>
+        </template>
+    </template>
+</template>

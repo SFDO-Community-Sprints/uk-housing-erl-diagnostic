@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Guidance__c</fullName>
+    <label>Guidance</label>
+    <referenceTo>AHA_ERL_Guidance__c</referenceTo>
+    <relationshipLabel>Category-Guidance Junctions</relationshipLabel>
+    <relationshipName>CategoryGuidance_Junctions</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>true</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

@@ -1,0 +1,228 @@
+<template>
+    <div lwc:if={isSandbox} class="slds-align_absolute-center slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning">
+        <strong>(THIS ALERT MESSAGE ONLY DISPLAYS IN TEST SANDBOXES)<br/>ERL Profile Used: <span class="slds-text-title_caps slds-text-color_inverse slds-p-around_xx-small" style="background:#16325c">{repairProfile}</span></strong>
+    </div>
+    <template lwc:if={isEditContext}>
+        <lightning-layout>
+            <lightning-layout-item flexibility="no-flex" padding="around-small">
+                <lightning-input type="toggle" label="Edit Mode" onchange={handleEditModeCheckbox} variant="label-stacked"></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="no-flex" padding="around-small">
+                <lightning-input type="toggle" label={getGuidedModeLabel} onchange={handleGuidedModeCheckbox} variant="label-stacked"></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="3" padding="around-small">
+                <lightning-combobox class="repair-profile-selector" name="repairProfile" label="Repair Profile" value={repairProfile} options={displayedRepairProfiles} onchange={handleRepairProfileChange} varian="label-inline"></lightning-combobox>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+    <template lwc:if={hasAddressText}>
+        <div>
+            <p>You are finding a repair item for: <strong>{addressText}</strong>.</p>
+        </div>
+    </template>
+    <template lwc:if={showSeedButton}>
+        <div class="slds-box slds-theme_shade slds-var-m-bottom_small slds-align_absolute-center slds-var-p-around_medium">
+            <p class="slds-var-m-bottom_small">No repair categories or SOR codes exist yet. You can use the button below to generate example data. This is not recommended for production scenarios.</p>
+            <lightning-button
+                label="Generate Example Data"
+                variant="brand"
+                icon-name="utility:add"
+                onclick={handleGenerateSeedData}>
+            </lightning-button>
+        </div>
+    </template>
+    <lightning-tabset>
+        <lightning-tab label="Guided Selection" onactive={handleGuidedSelectionTabClick}>
+            <template lwc:if={getIsCategoryNotPicked}>
+                <div class="slds-grid slds-wrap button-container">
+                    <template for:each={displayedCategories} for:item="category">
+                        <div key={category.id} class="slds-col slds-grow-none">
+                            <div class="slds-grid slds-grid_vertical slds-align_absolute-center slds-var-m-horizontal_xxx-small">
+                                <button data-id={category.id}
+                                        data-label={category.label}
+                                        class="aha-erl-category-button" 
+                                        aria-label={category.label} 
+                                        onclick={handleCategoryButtonClick}>
+                                    <img src={category.ImageUrl} alt={category.label} class="slds-border_bottom" />
+                                    <template lwc:if={editMode}>
+                                        <label class="aha-erl-category-button-label">{category.editModeLabel}</label>
+                                    </template>
+                                    <template lwc:else>
+                                        <label class="aha-erl-category-button-label">{category.label}</label>
+                                    </template>
+                                </button>
+                                <template lwc:if={editMode}>
+                                    <c-aha-erl-edit-button
+                                        default-profile-options={defaultProfileOptions}
+                                        guided-user={guidedUser}
+                                        all-repair-profiles={displayedRepairProfiles}
+                                        category={category}
+                                        oncategoryedited={handleEditedCategory}
+                                        onspinneron={handleSpinnerOn}
+                                        onspinneroff={handleSpinnerOff}
+                                        onrivsorselector__editprofilechange={handleEditProfileChange}>
+                                    </c-aha-erl-edit-button>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    <template lwc:if={editMode}>
+                        <div class="slds-col slds-grow-none">
+                            <div class="slds-grid slds-grid_vertical slds-align_absolute-center">
+                                <c-aha-erl-edit-button
+                                    default-profile-options={defaultProfileOptions}
+                                    guided-user={guidedUser}
+                                    all-repair-profiles={displayedRepairProfiles}
+                                    new-mode="true"
+                                    oncategoryedited={handleEditedCategory}
+                                    onspinneron={handleSpinnerOn}
+                                    onspinneroff={handleSpinnerOff}
+                                    onrivsorselector__editprofilechange={handleEditProfileChange}>
+                                </c-aha-erl-edit-button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <template lwc:if={getIsCategoryPicked}>
+                <template lwc:if={displayTabs}>
+                    <lightning-tabset active-tab-value={selectedCategory}>
+                        <template for:each={displayedCategories} for:item="category">
+                            <lightning-tab data-id={category.id} data-label={category.label} key={category.id} label={category.label} value={category.id} onactive={handleCategoryTabClick}>
+                                <template lwc:if={category.isActive}>
+                                    <c-aha-erl-category
+                                        default-profile-options={defaultProfileOptions}
+                                        guided-user={guidedUser}
+                                        category={category.id}
+                                        repair-profile={repairProfile}
+                                        all-repair-profiles={displayedRepairProfiles}
+                                        repair-locations={repairLocations}
+                                        edit-mode={editMode}
+                                        display-tabs={displayTabs}
+                                        my-aha-erl-mode={myAhaErlMode}
+                                        onspinneroff={handleSpinnerOff}
+                                        onspinneron={handleSpinnerOn}
+                                        onback={handleBack}
+                                        onrivsorselector__sorselected={handleSorSelection}
+                                        onrivsorselector__guidedsubmit={handleGuidedSubmit}
+                                        onrivsorselector__editprofilechange={handleEditProfileChange}>
+                                    </c-aha-erl-category>
+                                </template>
+                            </lightning-tab>
+                        </template>
+                    </lightning-tabset>
+                </template>
+                <template lwc:else>
+                    <c-aha-erl-category
+                            default-profile-options={defaultProfileOptions}
+                            guided-user={guidedUser}
+                            category={selectedCategory}
+                            repair-profile={repairProfile}
+                            all-repair-profiles={displayedRepairProfiles}
+                            repair-locations={repairLocations}
+                            edit-mode={editMode}
+                            display-tabs={displayTabs}
+                            my-aha-erl-mode={myAhaErlMode}
+                            onspinneroff={handleSpinnerOff}
+                            onspinneron={handleSpinnerOn}
+                            onback={handleBack}
+                            onrivsorselector__sorselected={handleSorSelection}
+                            onrivsorselector__guidedsubmit={handleGuidedSubmit}
+                            onrivsorselector__editprofilechange={handleEditProfileChange}>
+                        </c-aha-erl-category>
+                </template>
+            </template>
+        </lightning-tab>
+        <template lwc:if={allowSearch}>
+            <lightning-tab label="Search" onactive={handleSearchTabClick}>
+                <c-aha-erl-search
+                    default-profile-options={defaultProfileOptions}
+                    all-repair-profiles={allRepairProfiles}
+                    profile={repairProfile}
+                    repair-locations={repairLocations}
+                    search-edit-mode={editMode}
+                    onrivsorselector__sorselected={handleSorSelection}
+                    onrivsorselector__editprofilechange={handleEditProfileChange}>
+                </c-aha-erl-search>
+            </lightning-tab>
+        </template>
+        <template lwc:if={editMode}>
+            <lightning-tab label="Profiles" >
+                <c-aha-erl-profiles
+                    default-profile-options={defaultProfileOptions}
+                    all-repair-profiles={allRepairProfiles}
+                    onrivsorselector__editprofilechange={handleEditProfileChange}>
+                </c-aha-erl-profiles>
+            </lightning-tab>
+        </template>
+    </lightning-tabset>
+    <div class="spinnerDiv">
+        <template lwc:if={isSpinnerOn}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+    </div>
+    <template lwc:if={notGuidedUser}>
+        <div class="selectedSOR-container">
+            <div class="slds-text-heading_medium slds-border_top">Selected SORs:</div>
+            <div class="slds-grid slds-border_bottom">
+                <div class="slds-col slds-size_1-of-8">
+
+                </div>
+                <div class="slds-col slds-size_1-of-8">
+                    <p>SOR</p>
+                </div>
+                <div class="slds-col slds-size_2-of-8">
+                    <p>Description</p>
+                </div>
+                <div class="slds-col slds-size_1-of-8">
+                    <p>Quantity</p>
+                </div>
+                <div class="slds-col slds-size_1-of-8">
+                    <p>Priority</p>
+                </div>
+                <div class="slds-col slds-size_2-of-8">
+                    <p>Location</p>
+                </div>
+            </div>
+            <template for:each={selectedSORs} for:item="sor">
+                <div key={sor.id} class="slds-border_bottom">
+                    <c-aha-erl-picked-item
+                        default-profile-options={defaultProfileOptions}
+                        sor={sor}
+                        repair-locations={repairLocations}
+                        ondeletesor={handleDeleteSor}
+                        onsoredit={handleEditSor}
+                        onrivsorselector__editprofilechange={handleEditProfileChange}>
+                    </c-aha-erl-picked-item>
+                </div>
+            </template>
+        </div>
+    </template>
+    <template lwc:if={displayFooter}>
+        <template lwc:if={isFlowContext}>
+            <div class="slds-var-p-vertical_small">
+                <template lwc:if={showCreateReferralAction}>
+                    <p>If you are unable to select your repair in ERL, <strong>or want to report an issue with suspected damp &amp; mould,</strong> please click the Create Referral button to provide more details. Any repair selected in ERL will be removed by clicking Create Referral. This will then take you to a referral screen to provide more details</p>
+                </template>
+            </div>
+        </template>
+        <div class="slds-grid slds-grid_align-end navigationBar">
+            <div class="slds-float_right" style="margin-left: 5px">
+                <lightning-button class="slds-var-m-top_small" onclick={handlePreviousButton} name="Previous" variant="neutral" label="Previous">
+                </lightning-button>
+            </div>
+            <template lwc:if={isFlowContext}>
+                <template lwc:if={showCreateReferralAction}>
+                    <div class="slds-float_right" style="margin-left: 5px">
+                        <lightning-button class="slds-var-m-top_small" onclick={handleUnableToSelect} name="Create Referral" variant="neutral" label={createReferralButtonLabel}>
+                        </lightning-button>
+                    </div>
+                </template>
+            </template>
+            <div class="slds-float_right" style="margin-left: 5px">
+                <lightning-button disabled={getIsNextDisabled} class="slds-var-m-top_small" onclick={handleNextButton} name="Next" variant="brand" label="Next">
+                </lightning-button>
+            </div>
+        </div>
+    </template>
+</template>

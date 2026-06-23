@@ -1,0 +1,10 @@
+<template>
+    <div class="draggable">
+        <div class="drag-handle">
+            <lightning-button-icon class="close-button" icon-name="utility:close" variant="bare" onclick={handleClose}></lightning-button-icon>
+        </div>
+        <div class="content">
+            <lightning-formatted-rich-text value={bodyText}></lightning-formatted-rich-text>
+        </div>
+    </div>
+</template>

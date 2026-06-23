@@ -1,0 +1,9 @@
+<template>
+    <template for:each={text} for:item="segment">
+        <c-aha-erl-item-picket-item-text-segment
+            default-profile-options={defaultProfileOptions}
+            key={segment.text}
+            segment={segment}>
+        </c-aha-erl-item-picket-item-text-segment>
+    </template>
+</template>

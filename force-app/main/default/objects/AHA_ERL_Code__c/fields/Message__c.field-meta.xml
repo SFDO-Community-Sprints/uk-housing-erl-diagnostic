@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Message__c</fullName>
+    <description>Messages are used for Message Sor Code record types, this message will be displayed on the SOR selector instead of a selectable SOR.</description>
+    <inlineHelpText>Messages are used for Message Sor Code record types, this message will be displayed on the SOR selector instead of a selectable SOR.</inlineHelpText>
+    <label>Message</label>
+    <length>1000</length>
+    <trackTrending>false</trackTrending>
+    <type>Html</type>
+    <visibleLines>25</visibleLines>
+</CustomField>

@@ -1,0 +1,22 @@
+.vscode/
+.sf/
+.sfdx/
+.env
+**/__pycache__/
+**/.venv/
+**/venv/
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# LWC VSCode autocomplete
+**/lwc/jsconfig.json
+
+# LWC Jest coverage reports
+coverage/

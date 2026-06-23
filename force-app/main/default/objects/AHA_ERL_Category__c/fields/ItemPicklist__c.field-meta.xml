@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ItemPicklist__c</fullName>
+    <label>Item</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>SubCategoryPicklist__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>TAPS</fullName>
+                <default>false</default>
+                <label>TAPS</label>
+            </value>
+            <value>
+                <fullName>BATH TILES</fullName>
+                <default>false</default>
+                <label>BATH TILES</label>
+            </value>
+            <value>
+                <fullName>BATH</fullName>
+                <default>false</default>
+                <label>BATH</label>
+            </value>
+            <value>
+                <fullName>LEAKS AND BLOCKAGES</fullName>
+                <default>false</default>
+                <label>LEAKS AND BLOCKAGES</label>
+            </value>
+            <value>
+                <fullName>PANELS</fullName>
+                <default>false</default>
+                <label>PANELS</label>
+            </value>
+            <value>
+                <fullName>FLOOR</fullName>
+                <default>false</default>
+                <label>FLOOR</label>
+            </value>
+            <value>
+                <fullName>BASIN TILES</fullName>
+                <default>false</default>
+                <label>BASIN TILES</label>
+            </value>
+            <value>
+                <fullName>BASIN: LEAKS AND BLOCKAGES</fullName>
+                <default>false</default>
+                <label>BASIN: LEAKS AND BLOCKAGES</label>
+            </value>
+            <value>
+                <fullName>DAMAGED BASIN</fullName>
+                <default>false</default>
+                <label>DAMAGED BASIN</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>BATHTUBS</controllingFieldValue>
+            <controllingFieldValue>BASINS</controllingFieldValue>
+            <valueName>TAPS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BATHTUBS</controllingFieldValue>
+            <valueName>BATH TILES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BATHTUBS</controllingFieldValue>
+            <valueName>BATH</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BATHTUBS</controllingFieldValue>
+            <valueName>LEAKS AND BLOCKAGES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BATHTUBS</controllingFieldValue>
+            <valueName>PANELS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BATHTUBS</controllingFieldValue>
+            <valueName>FLOOR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BASINS</controllingFieldValue>
+            <valueName>BASIN TILES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BASINS</controllingFieldValue>
+            <valueName>BASIN: LEAKS AND BLOCKAGES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BASINS</controllingFieldValue>
+            <valueName>DAMAGED BASIN</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

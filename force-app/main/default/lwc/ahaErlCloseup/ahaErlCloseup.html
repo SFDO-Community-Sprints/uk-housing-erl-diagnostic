@@ -1,0 +1,94 @@
+<template>
+    <template lwc:if={editMode}>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-grow-none">
+                <c-aha-erl-edit-button
+                    default-profile-options={defaultProfileOptions}
+                    guided-user={guidedUser} 
+                    all-repair-profiles={allRepairProfiles}
+                    edit-text-override="Edit Image or Delete"
+                    category={category}
+                    oncategoryedited={handleEditedCategory}
+                    onspinneron={showSpinner}
+                    onspinneroff={hideSpinner}>
+                </c-aha-erl-edit-button>
+            </div>
+            <div class="slds-col slds-grow-none">
+                <c-aha-erl-edit-button
+                    default-profile-options={defaultProfileOptions}
+                    guided-user={guidedUser} 
+                    all-repair-profiles={allRepairProfiles}
+                    new-mode="true"
+                    button="true"
+                    parent-category={category.id}
+                    oncategoryedited={handleEditedCategory}
+                    onspinneron={showSpinner}
+                    onspinneroff={hideSpinner}>
+                </c-aha-erl-edit-button>
+            </div>
+            <template lwc:if={moveMode}>
+                <div class="slds-col slds-grow-none">
+                    MOVE MODE!
+                </div>
+            </template>
+        </div>
+    </template>
+    <div class="container" onmousemove={handleMouseMove}>
+        <template lwc:if={getIsItemSelected}>
+            <c-aha-erl-item-picker
+                default-profile-options={defaultProfileOptions}
+                all-repair-profiles={allRepairProfiles}
+                guided-user={guidedUser}
+                edit-mode={editMode}
+                repair-profile={repairProfile}
+                selected-item={selectedItem}
+                repair-locations={repairLocations}
+                oneditedcategory={handleEditedCategory}
+                onclose={handleItemPickerClose}
+                onlocationchange={handleLocationChange}>
+            </c-aha-erl-item-picker>
+        </template>
+        <template lwc:if={localSpinner}>
+            <div class="slds-spinner_container riv-spinner-container">
+                <div role="status" class="slds-spinner slds-spinner_small">
+                </div>
+            </div>
+        </template>
+        <div class={greyOutClass}>
+            <img src={image} alt={label} class="slds-box slds-box_xx-small riv-box" onmousedown={getCoords} onload={handleImgLoaded}/>
+            <template lwc:if={imgNotLoaded}>
+
+            </template>
+            <template lwc:else>
+                <template for:each={copiedButtons} for:item="button">
+                    <div key={button.id}>
+                        <c-aha-erl-item-button 
+                            default-profile-options={defaultProfileOptions}
+                            all-repair-profiles={allRepairProfiles}
+                            guided-user={guidedUser}
+                            edit-mode={editMode}
+                            button={button}
+                            moveparams={updateParams}
+                            disable-move={moveMode}
+                            oncategoryedited={handleEditedCategory}
+                            onitemselected={handleItemSelected}
+                            onmovemode={handleMoveMode}>
+                        </c-aha-erl-item-button>
+                    </div>
+                </template>
+                <!-- easteregg -->
+                <template lwc:if={isCatVisible}>
+                    <div class="cat">
+                        <img src={getCat} alt="Cat" title="meow" onclick={removeCat}>
+                        <div class="eye eye-left">
+                            <div class="pupil"></div>
+                        </div>
+                        <div class="eye eye-right">
+                            <div class="pupil"></div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </div>
+</template>
