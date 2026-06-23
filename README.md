@@ -9,6 +9,8 @@ Thanks to the following people for their help in devleoping this product and gen
 - Graham Weaver (Riverside)
 
 
+> **Installing this app?** See [AI-install-instructions.md](AI-install-instructions.md) for a step-by-step guide written from a real install run, including correct CLI commands and known issues. Recommended over the installation section below for both human and AI installers.
+
 # Table of Contents
 1. [What It Does](#WhatItDoes)
 2. [Prerequisites](#Prerequisites)
@@ -52,7 +54,7 @@ sf org login web --alias my-org-alias --set-default
 
 ```bash
 git clone <repo-url>
-cd AHA-ERL-Staging
+cd uk-housing-erl-diagnostic
 ```
 ### <a name="DeployToOrg" id="DeployToOrg"></a> 2. Deploy to your org
 
