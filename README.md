@@ -3,11 +3,15 @@
 A simple graphical tool to allow a user to select a repair and provide the relevant Schedule of Rates (SOR) Code for use in repair logging systems. By default it's configured to be used for repairs, but it can be configured for any need that has a hierarchical structure.
 
 ## <a name="Contributors" id="Contributors"></a> Contributors
-Thanks to the following people for their help in devleoping this product and generously sharing it with wider community.
-- Matthew McMahon (Riverside)
-- Jonathan Pilkington (Riverside)
-- Graham Weaver (Riverside)
+Thanks to the following people for their help in devleoping, supporting and promoting this product and generously sharing it with wider community.
+- **Matthew McMahon** (Riverside)
+- **Jonathan Pilkington** (Riverside)
+- **Graham Weaver** (Riverside)
 
+<br> 
+<img width="219" height="226" alt="ERL1" src="https://github.com/user-attachments/assets/18c4eb02-341e-437f-9be5-c6920c36df8c" />
+<br>
+<br>
 
 > **Installing this app?** See [AI-install-instructions.md](AI-install-instructions.md) for a step-by-step guide written from a real install run, including correct CLI commands and known issues. Recommended over the installation section below for both human and AI installers.
 
