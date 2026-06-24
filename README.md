@@ -1,6 +1,6 @@
 # Easy Repair Locator (ERL) - Salesforce Open Source App
  
-A simple graphical tool to allow a user to select a repair and provide the relevant Schedule of Rates (SOR) Code for use in repair logging systems. By default it's configured to be used for repairs, but it can be configured for any need that has a hierarchical structure.
+A simple graphical tool to allow a user (staff or customer) to select a repair and provide the relevant Schedule of Rates (SOR) Code for use in repair logging systems. By default it's configured to be used for repairs, but it can be configured for any need that has a decision tree structure. Change the graphics to match your branding simply by changing the images zip.
 
 ## <a name="Contributors" id="Contributors"></a> Contributors
 Thanks to the following people for their help in devleoping, supporting and promoting this product and generously sharing it with wider community.
