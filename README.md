@@ -13,7 +13,7 @@ Thanks to the following people for their help in devleoping, supporting and prom
 <br>
 <br>
 
-> **Installing this app?** See [AI-install-instructions.md](AI-install-instructions.md) for a step-by-step guide written from a real install run, including correct CLI commands and known issues. Recommended over the installation section below for both human and AI installers.
+> **Installing this app?** See [AI-install-instructions.md](AI-install-instructions.md) for a step-by-step guide written from a real install run, including correct CLI commands and known issues. Recommended over the installation section below for AI installers.
 
 # Table of Contents
 1. [What It Does](#WhatItDoes)
