@@ -196,7 +196,8 @@ These need importing into the **AHA_ERL_Code__c** object
 
 ## <a name="Documentation" id="Documentation"></a> Documentation
 
-[Read auto-generated documentation of the SFDX project](docs/index.md)
+- [Read auto-generated documentation of the SFDX project](docs/index.md) <br>
+- [AI-install-instructions.md](AI-install-instructions.md) for a step-by-step guide 
 
 ### Doc HTML Pages
 
